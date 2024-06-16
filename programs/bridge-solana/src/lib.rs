@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{Mint, Token, TokenAccount, Transfer};
 
-declare_id!("Fc8Kj9zkE7fLuLnpxZyArs3oJj3EKuaLj9XNGQ2GQbwY");
+declare_id!("Nq7BKR8NUodEcmKmWnSfi3sxTnZGPHgtLynvzdki8fm");
 
 // used as a generic address for any non-Solana chain
 // the address is supposed to be stored as a sequence
@@ -243,6 +243,12 @@ pub mod bridge_solana {
             amount / ctx.accounts.to_chain_data.exchange_rate_from,
             u64::from(MAX_FEE),
             BridgeError::AmountTooLow
+        );
+
+        require_eq!(
+            (to == Bytes32 { byte: [0; 32] }),
+            true,
+            BridgeError::ZeroAddress
         );
 
         // the conversion is needed to account for decimal differences between chains
@@ -696,4 +702,5 @@ pub enum BridgeError {
     WithdrawZero,
     SendLimitExceeded,
     AmountUneven,
+    ZeroAddress,
 }
