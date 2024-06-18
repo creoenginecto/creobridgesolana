@@ -246,7 +246,7 @@ pub mod bridge_solana {
         );
 
         require_eq!(
-            (to == Bytes32 { byte: [0; 32] }),
+            (to != Bytes32 { byte: [0; 32] }),
             true,
             BridgeError::ZeroAddress
         );
